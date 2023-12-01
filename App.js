@@ -1,11 +1,15 @@
+//Bimindu Aberathna - IM/2020/004
+
 // Import necessary modules and functions
 import React, { useState, useEffect } from 'react';
 import { ScrollView,TouchableOpacity, Image, View, TextInput, Text, Alert, FlatList, ImageBackground,Keyboard, KeyboardEvent  } from 'react-native';
 import { Dimensions } from 'react-native';
 //import { Easing, withTiming, useSharedValue, useAnimatedStyle } from 'react-native-reanimated';
+
+//import getWeatherData function
 import getWeatherData from './AppComponents/weatherAPI';
 
-//import styles
+//import styles from App_styles.js
 import { styles } from './AppComponents/App_styles';
 
 //import backgrouf images for day and night
