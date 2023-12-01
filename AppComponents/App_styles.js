@@ -1,9 +1,10 @@
 import { Dimensions } from 'react-native';
-
+// Get the window dimensions from the device
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export const styles = {
+  //imput field
   input: {
     height: windowHeight * 0.07,
     width: windowWidth * 0.85,
@@ -14,7 +15,7 @@ export const styles = {
     paddingLeft: 20,
   },
   
- 
+ //weather state icon
   weatherIconImage: {
     width: windowWidth * 0.8,
     height: windowWidth * 0.8,

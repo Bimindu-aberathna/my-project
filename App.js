@@ -498,10 +498,10 @@ const fetchCities = async (value) => {
     setSuggestedCities([]); // Clear the suggested cities if the search bar is empty
   } else {
     try {
-      // Use the Teleport API or another city-related API
+      // Use the Teleport API and get suggestions for the search bar
       const response = await fetch(`https://api.teleport.org/api/cities/?search=${value}`);
       const data = await response.json();
-
+      // Check if the API returned any results
       if (data._embedded && data._embedded['city:search-results']) {
         const results = data._embedded['city:search-results'].map((result) => {
           const city = result.matching_full_name.split(',')[0];
@@ -523,7 +523,9 @@ const fetchCities = async (value) => {
   // Render the suggested city
 
   const renderSuggestedCity = ({ item }) => (
-    <TouchableOpacity onPress={() => { setCity(item); setSuggestedCities([]); fetchWeather(item); }}>
+    <TouchableOpacity onPress={() => { 
+      //fetch weather data for the selected city
+      setCity(item); setSuggestedCities([]); fetchWeather(item); }}>
       <View style={styles.suggestedCityItem}>
         <Text>{item}</Text>
       </View>
@@ -551,6 +553,7 @@ const fetchCities = async (value) => {
         }}
       >
         <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 30 }}>
+        {/* Get user input */}
           <TextInput
             placeholder="Search any city..."
             value={city}
@@ -565,12 +568,13 @@ const fetchCities = async (value) => {
 
 
         </View>
-
+        {/* display city name */}
         {weatherData && (
           <View style={styles.cityInfo}>
             <Text style={styles.cityText}>{weatherData.name}, {weatherData.sys.country}</Text>
           </View>
         )}
+        {/* display weather state icon */}
         <View style={styles.weatherIcon}>
           <Image
             source={weatherIcon}
@@ -579,26 +583,28 @@ const fetchCities = async (value) => {
         </View>
 
         
-
+          {/* display wether state */}
         {weatherData && (
           <View style={styles.weatherState}>
             <Text style={styles.weatheStateText}>{weatherData.weather[0].description}</Text>
           </View>
         )}
         
+        {/* display temperature */}
         {weatherData && (
           <View style={styles.temperature}>
             <Text style={styles.temperatureText}>{temp_conversion(weatherData.main.temp)} &#xb0;C</Text>
           </View>
         )}
+        {/* display date */}
         {weatherData && (
           <View style={styles.date}>
-            <Text style={styles.dateText}>{formatTimestamp(weatherData.dt)} &#xb0;C</Text>
+            <Text style={styles.dateText}>{formatTimestamp(weatherData.dt)}</Text>
           </View>
         )}
-
+        {/* display other weather parameters*/}
         <View style={{ flexDirection: 'row', alignItems: 'baseline',marginTop:windowWidth*0.025 }}>
-
+          {/* humidity */}
           <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: windowWidth*0.075,width:155 }}>
             <Image
               source={require('./AppComponents/images/humidity.png')}
@@ -613,7 +619,7 @@ const fetchCities = async (value) => {
               <View><Text style={styles.parameterNameText}>Humidity</Text></View>
             </View>
           </View>
-
+          {/* wind speed */}
           <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: windowWidth*0.075,width:155 }}>
             <Image
               source={require('./AppComponents/images/wind.png')}
@@ -635,7 +641,7 @@ const fetchCities = async (value) => {
         </View>
 
         <View style={{ flexDirection: 'row', alignItems: 'baseline' ,marginTop:windowWidth*0.025}}>
-
+          {/* time of the selected city*/}
           <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: windowWidth*0.075,width:155 }}>
             <Image
               source={require('./AppComponents/images/clock.png')}
@@ -651,6 +657,7 @@ const fetchCities = async (value) => {
             </View>
           </View>
 
+          {/* pressure */}
           <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: windowWidth*0.075,width:155 }}>
             <Image
               source={require('./AppComponents/images/barometer.png')}
@@ -670,6 +677,7 @@ const fetchCities = async (value) => {
           </View>
 
         </View>
+        {/* display suggested cities */}
         <FlatList
           data={suggestedCities}
           renderItem={renderSuggestedCity}
@@ -685,6 +693,7 @@ const fetchCities = async (value) => {
   );
 }
 
+//covert date in to required format
 const formatTimestamp = (timestamp) => {
   const date = new Date(timestamp * 1000);
   const day = date.getDate();
@@ -692,7 +701,7 @@ const formatTimestamp = (timestamp) => {
   const year = date.getFullYear();
   return `${day} ${month_name} ${year}`;
 };
-
+//convert time in to required format
 const formatTime = (number) => {
   if(number<10)
   {
@@ -701,10 +710,12 @@ const formatTime = (number) => {
     return `${number}`;
   }
 };
+//convert pressure (hPa) in to atm
 const pressure_conversion = (pressure) => {
   return (pressure * 0.0009869233).toFixed(2);
 };
 
+//convert temperature (K) in to celcius
 const temp_conversion = (temp) => {
   return (temp - 273).toFixed(1);
 };
