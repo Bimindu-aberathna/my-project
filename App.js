@@ -685,9 +685,10 @@ const fetchCities = async (value) => {
         <FlatList
           data={suggestedCities}
           renderItem={renderSuggestedCity}
-          keyExtractor={(item) => item}
+          keyExtractor={(item, index) => `${item}_${index}`}
           style={styles.flatList}
         />
+
         
         
 
