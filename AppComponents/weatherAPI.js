@@ -1,6 +1,6 @@
 // weatherAPI.js
 
-const API_KEY = '3ae3b120a1d5d252d2f15d7b372a9506';
+//const API_KEY = 'OpenWeatherMapAPIKey';
 //ferch data from openweathermap.org for the specific city
 const getWeatherData = async (city) => {
     try {
